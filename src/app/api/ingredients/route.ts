@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   try {
     await connectDB();
-    const ingredients = await Ingredient.find().sort({ category: 1, name: 1 });
+    const ingredients = await Ingredient.find().sort({ name: 1 });
     return NextResponse.json(ingredients);
   } catch (error) {
     console.error("Failed to fetch ingredients:", error);

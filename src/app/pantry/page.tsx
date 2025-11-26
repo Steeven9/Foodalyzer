@@ -22,15 +22,15 @@ export default function PantryPage() {
   });
 
   const categories = [
-    "Vegetables",
-    "Fruits",
-    "Proteins",
+    "Beverages",
+    "Condiments",
     "Dairy",
+    "Fruits",
     "Grains",
-    "Oils & Fats",
+    "Proteins",
     "Sauces",
     "Snacks",
-    "Beverages",
+    "Vegetables",
     "Other",
   ];
 

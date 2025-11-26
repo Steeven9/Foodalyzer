@@ -135,7 +135,6 @@ export default function TablePage() {
 
       // Reset form
       setDishEntries([]);
-      setMealType("lunch");
       await fetchMealsForDate();
     } catch (error) {
       console.error("Failed to save meal:", error);
