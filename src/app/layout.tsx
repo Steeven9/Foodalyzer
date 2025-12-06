@@ -1,4 +1,6 @@
 import { AuthSessionProvider } from "@/components/AuthSessionProvider";
+import { Footer } from "@/components/Footer";
+import { Navigation } from "@/components/Navigation";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
@@ -20,8 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.className} antialiased`}>
-        <AuthSessionProvider>{children}</AuthSessionProvider>
+      <body
+        className={`${geistSans.className} antialiased bg-linear-to-br from-slate-900 to-slate-800`}
+      >
+        <AuthSessionProvider>
+          <Navigation />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </AuthSessionProvider>
       </body>
     </html>
   );

@@ -8,7 +8,6 @@ import {
 } from "@/actions/ingredients";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import { Navigation } from "@/components/Navigation";
 import { Select } from "@/components/Select";
 import { Ingredient } from "@/types";
 import { useEffect, useState } from "react";
@@ -104,158 +103,150 @@ export default function PantryPage() {
   };
 
   return (
-    <>
-      <Navigation />
-      <main className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-4xl font-bold text-emerald-400">The Pantry</h1>
-            <Button
-              onClick={() => {
-                setShowForm(!showForm);
-                setEditingId(null);
-                setFormData({
-                  name: "",
-                  calories: 0,
-                  category: "",
-                  description: "",
-                });
-              }}
-            >
-              {showForm ? "Cancel" : "Add Ingredient"}
-            </Button>
-          </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-emerald-400">The Pantry</h1>
+        <Button
+          onClick={() => {
+            setShowForm(!showForm);
+            setEditingId(null);
+            setFormData({
+              name: "",
+              calories: 0,
+              category: "",
+              description: "",
+            });
+          }}
+        >
+          {showForm ? "Cancel" : "Add Ingredient"}
+        </Button>
+      </div>
 
-          {/* Add/Edit Form */}
-          {showForm && (
-            <div className="bg-slate-800 rounded-lg p-8 border border-slate-700 mb-8">
-              <h2 className="text-2xl font-bold text-emerald-400 mb-6">
-                {editingId ? "Edit Ingredient" : "Add New Ingredient"}
-              </h2>
-              <form
-                onSubmit={handleSubmit}
-                className="grid md:grid-cols-2 gap-6"
+      {/* Add/Edit Form */}
+      {showForm && (
+        <div className="bg-slate-800 rounded-lg p-8 border border-slate-700 mb-8">
+          <h2 className="text-2xl font-bold text-emerald-400 mb-6">
+            {editingId ? "Edit Ingredient" : "Add New Ingredient"}
+          </h2>
+          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+            <Input
+              label="Ingredient Name"
+              placeholder="e.g., Chicken Breast"
+              value={formData.name}
+              onChange={(value) =>
+                setFormData({ ...formData, name: value as string })
+              }
+              required
+            />
+            <Input
+              label="Calories (kcal/100g)"
+              type="number"
+              placeholder="0"
+              value={formData.calories}
+              onChange={(value) =>
+                setFormData({ ...formData, calories: value as number })
+              }
+              required
+            />
+            <Select
+              label="Category"
+              options={categories.map((cat) => ({
+                value: cat,
+                label: cat,
+              }))}
+              value={formData.category}
+              onChange={(value) =>
+                setFormData({ ...formData, category: value as string })
+              }
+              required
+            />
+            <Input
+              label="Description (optional)"
+              placeholder="e.g., skinless, grilled"
+              value={formData.description}
+              onChange={(value) =>
+                setFormData({ ...formData, description: value as string })
+              }
+            />
+            <div className="md:col-span-2 flex gap-4">
+              <Button
+                type="button"
+                variant="secondary"
+                className="flex-1"
+                onClick={() => {
+                  setShowForm(false);
+                  setEditingId(null);
+                  setFormData({
+                    name: "",
+                    calories: 0,
+                    category: "",
+                    description: "",
+                  });
+                }}
               >
-                <Input
-                  label="Ingredient Name"
-                  placeholder="e.g., Chicken Breast"
-                  value={formData.name}
-                  onChange={(value) =>
-                    setFormData({ ...formData, name: value as string })
-                  }
-                  required
-                />
-                <Input
-                  label="Calories (kcal/100g)"
-                  type="number"
-                  placeholder="0"
-                  value={formData.calories}
-                  onChange={(value) =>
-                    setFormData({ ...formData, calories: value as number })
-                  }
-                  required
-                />
-                <Select
-                  label="Category"
-                  options={categories.map((cat) => ({
-                    value: cat,
-                    label: cat,
-                  }))}
-                  value={formData.category}
-                  onChange={(value) =>
-                    setFormData({ ...formData, category: value as string })
-                  }
-                  required
-                />
-                <Input
-                  label="Description (optional)"
-                  placeholder="e.g., skinless, grilled"
-                  value={formData.description}
-                  onChange={(value) =>
-                    setFormData({ ...formData, description: value as string })
-                  }
-                />
-                <div className="md:col-span-2 flex gap-4">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="flex-1"
-                    onClick={() => {
-                      setShowForm(false);
-                      setEditingId(null);
-                      setFormData({
-                        name: "",
-                        calories: 0,
-                        category: "",
-                        description: "",
-                      });
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" className="flex-1">
-                    {editingId ? "Update Ingredient" : "Add Ingredient"}
-                  </Button>
-                </div>
-              </form>
-            </div>
-          )}
-
-          {/* Ingredients List */}
-          {loading ? (
-            <div className="text-center py-12">
-              <p className="text-slate-300">Loading ingredients...</p>
-            </div>
-          ) : ingredients.length === 0 ? (
-            <div className="bg-slate-800 rounded-lg p-12 border border-slate-700 text-center">
-              <p className="text-slate-300 mb-4">
-                No ingredients yet. Start by adding one!
-              </p>
-              <Button onClick={() => setShowForm(true)}>
-                Add Your First Ingredient
+                Cancel
+              </Button>
+              <Button type="submit" className="flex-1">
+                {editingId ? "Update Ingredient" : "Add Ingredient"}
               </Button>
             </div>
-          ) : (
-            <div className="grid gap-4">
-              {ingredients.map((ingredient) => (
-                <div
-                  key={ingredient._id}
-                  className="bg-slate-800 rounded-lg p-6 border border-slate-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-                >
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-emerald-400 mb-2">
-                      {ingredient.name}
-                    </h3>
-                    <div className="flex flex-wrap gap-4 text-sm text-slate-400">
-                      <span>📁 {ingredient.category}</span>
-                      <span>🔥 {ingredient.calories} kcal/100g</span>
-                      {ingredient.description && (
-                        <span>📝 {ingredient.description}</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleEdit(ingredient)}
-                      className="px-3 py-1 text-sm"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleDelete(ingredient._id)}
-                      className="px-3 py-1 text-sm"
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          </form>
         </div>
-      </main>
-    </>
+      )}
+
+      {/* Ingredients List */}
+      {loading ? (
+        <div className="text-center py-12">
+          <p className="text-slate-300">Loading ingredients...</p>
+        </div>
+      ) : ingredients.length === 0 ? (
+        <div className="bg-slate-800 rounded-lg p-12 border border-slate-700 text-center">
+          <p className="text-slate-300 mb-4">
+            No ingredients yet. Start by adding one!
+          </p>
+          <Button onClick={() => setShowForm(true)}>
+            Add Your First Ingredient
+          </Button>
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {ingredients.map((ingredient) => (
+            <div
+              key={ingredient._id}
+              className="bg-slate-800 rounded-lg p-6 border border-slate-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+            >
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-emerald-400 mb-2">
+                  {ingredient.name}
+                </h3>
+                <div className="flex flex-wrap gap-4 text-sm text-slate-400">
+                  <span>📁 {ingredient.category}</span>
+                  <span>🔥 {ingredient.calories} kcal/100g</span>
+                  {ingredient.description && (
+                    <span>📝 {ingredient.description}</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="secondary"
+                  onClick={() => handleEdit(ingredient)}
+                  className="px-3 py-1 text-sm"
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(ingredient._id)}
+                  className="px-3 py-1 text-sm"
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

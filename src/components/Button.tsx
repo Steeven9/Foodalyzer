@@ -20,7 +20,7 @@ export function Button({
   type = "button",
 }: Readonly<ButtonProps>) {
   const baseClasses =
-    "px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
+    "px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed";
   const variantClasses = {
     primary: "bg-emerald-600 hover:bg-emerald-700 text-white",
     secondary: "bg-slate-600 hover:bg-slate-700 text-white",
